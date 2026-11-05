@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 
 //testdb is name of database, it will automatically make it
 mongoose
-  .connect("mongodb+srv://lmanalang:C7ZURv7hIwcx7eDA@cluster0.hz8itbs.mongodb.net/")
+  .connect(process.env.MONGODB_URI)
   .then(() => console.log("Connected to mongodb..."))
-  .catch((err) => console.error("could not connect ot mongodb...", err));
+  .catch((err) => console.error("could not connect to mongodb...", err));
 
 const schema = new mongoose.Schema({
   name: String,
