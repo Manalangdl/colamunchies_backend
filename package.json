@@ -19,7 +19,9 @@
   },
   "homepage": "https://github.com/Manalangdl/colamunchies_backend#readme",
   "dependencies": {
+    "cors": "^2.8.6",
     "express": "^5.3.0",
-    "mongoose": "^9.11.4"
+    "mongoose": "^9.11.4",
+    "multer": "^2.5.0"
   }
 }
