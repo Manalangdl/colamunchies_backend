@@ -159,7 +159,7 @@ app.post("/api/reviews", upload.single("img"), (req, res) => {
 
     // make a review object
     const review = {
-        id: req.body.id,
+        id: Reviews.length + 1,
         name: req.body.name,
         restaurant: req.body.restaurant,
         review: req.body.review,
