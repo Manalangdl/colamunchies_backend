@@ -148,7 +148,7 @@ app.get("/api/reviews", (req,res)=>{
 });
 
 // post request 
-app.post("/api/reviews", upload.single("img"), (req, res) => {
+app.post("/api/reviews", upload.single("src"), (req, res) => {
 
     console.log("prevalidation");
     console.log(req.body);
@@ -159,6 +159,7 @@ app.post("/api/reviews", upload.single("img"), (req, res) => {
 
     if (result.error) {
         res.status(400).send(result.error.details[0].message);
+        return;
     }
 
     // make a review object
