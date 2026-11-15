@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const multer = require("multer");
 const app = express();
+const Joi = require("joi");
+app.use("/uploads", express.static("uploads"))
 app.use(express.static("public"));
 app.use(express.json());
 app.use(cors());
@@ -118,14 +120,67 @@ let Reviews = [
     
 ]
 
+// validation for everything (img/src doesn't require it)
+const validateReview = (review) => {
+    const schema = Joi.object({
+        id: Joi.allow(""),
+        name: Joi.string().min(3).required(),
+        restaurant: Joi.string().min(3).required(),
+        review: Joi.string().required(),
+        stars: Joi.number().required(),
+        month: Joi.number().required(),
+        day: Joi.number().required(),
+        year: Joi.number().required(),
+        link: Joi.string().min(12).required(),
+    });
 
+    return schema.validate(review);
+};
+
+// landing page
 app.get("/", (req, res) => {
     res.sendFile(__dirname + "/public/index.html");
 });
 
+// get request 
 app.get("/api/reviews", (req,res)=>{
     res.send(Reviews);
 });
+
+// post request 
+app.post("/api/reviews", upload.single("img"), (req, res) => {
+
+    // validate the request
+    const result = validateReview(req.body);
+
+    if (result.error) {
+        res.status(400).send(result.error.details[0].message);
+    }
+
+    // make a review object
+    const review = {
+        id: req.body.id,
+        name: req.body.name,
+        restaurant: req.body.restaurant,
+        review: req.body.review,
+        stars: req.body.stars,
+        month: req.body.month,
+        day: req.body.day,
+        year: req.body.year,
+        link: req.body.link,
+    }
+
+    // add the image to the review object
+    if (req.file) {
+        review.src = "images/" + req.file.filename;
+    }
+
+    // add to the Reviews list
+    Reviews.push(review);
+
+    // tell frontend it was a success
+    res.status(200).send(review);
+})
 
 //listen for incoming requests
 app.listen(3001, ()=>{
