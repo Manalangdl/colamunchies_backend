@@ -150,8 +150,12 @@ app.get("/api/reviews", (req,res)=>{
 // post request 
 app.post("/api/reviews", upload.single("img"), (req, res) => {
 
+    console.log("prevalidation");
+    console.log(req.body);
     // validate the request
     const result = validateReview(req.body);
+
+    console.log("postvalidation")
 
     if (result.error) {
         res.status(400).send(result.error.details[0].message);
