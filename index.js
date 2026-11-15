@@ -10,7 +10,7 @@ app.use(cors());
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, "./public/images/");
+      cb(null, "./public/review-imgs/");
     },
     filename: (req, file, cb) => {
       cb(null, file.originalname);
@@ -177,7 +177,7 @@ app.post("/api/reviews", upload.single("src"), (req, res) => {
 
     // add the image to the review object
     if (req.file) {
-        review.src = "images/" + req.file.filename;
+        review.src = "review-imgs/" + req.file.filename;
     }
 
     // add to the Reviews list
